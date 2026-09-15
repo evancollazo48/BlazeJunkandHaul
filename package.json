@@ -1,0 +1,47 @@
+{
+  "name": "blaze-junk-and-haul",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Marketing website for Blaze Junk & Haul — junk removal, cleanouts & hauling in Fort Worth and DFW.",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "node node_modules/next/dist/bin/next dev",
+    "build": "node node_modules/next/dist/bin/next build",
+    "start": "node node_modules/next/dist/bin/next start",
+    "lint": "node node_modules/eslint/bin/eslint.js .",
+    "lint:fix": "node node_modules/eslint/bin/eslint.js . --fix",
+    "typecheck": "node node_modules/next/dist/bin/next typegen && node node_modules/typescript/bin/tsc --noEmit",
+    "format": "node node_modules/prettier/bin/prettier.cjs --write .",
+    "format:check": "node node_modules/prettier/bin/prettier.cjs --check ."
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.2.8",
+    "@hookform/resolvers": "^5.9.1",
+    "framer-motion": "^13.2.0",
+    "lucide-react": "^1.45.0",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-hook-form": "^7.87.0",
+    "resend": "^6.27.0",
+    "zod": "^4.6.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.4",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
