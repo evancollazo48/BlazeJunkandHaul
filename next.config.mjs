@@ -10,6 +10,13 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  // Next's own recommended setting for self-hosting on a plain Node server
+  // (as opposed to Vercel) — see https://nextjs.org/docs/app/api-reference/config/next-config-js/output.
+  // Produces a minimal, self-contained .next/standalone/server.js alongside
+  // the normal build, which is what platforms like Hostinger's Node.js app
+  // hosting expect to find and run. Doesn't change `next dev`, `next build`
+  // or `next start` used locally — purely additive.
+  output: "standalone",
   poweredByHeader: false,
   reactStrictMode: true,
   images: {

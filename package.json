@@ -10,7 +10,9 @@
   "scripts": {
     "dev": "node node_modules/next/dist/bin/next dev",
     "build": "node node_modules/next/dist/bin/next build",
+    "postbuild": "node scripts/copy-standalone-assets.mjs",
     "start": "node node_modules/next/dist/bin/next start",
+    "start:standalone": "node .next/standalone/server.js",
     "lint": "node node_modules/eslint/bin/eslint.js .",
     "lint:fix": "node node_modules/eslint/bin/eslint.js . --fix",
     "typecheck": "node node_modules/next/dist/bin/next typegen && node node_modules/typescript/bin/tsc --noEmit",

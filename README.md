@@ -175,8 +175,40 @@ labelled form fields with `aria-describedby` error messages, an APG-pattern FAQ 
 `<dialog>` mobile menu (focus trap + Escape), 44px+ tap targets, and all animation disabled for
 `prefers-reduced-motion`.
 
-## Deploying to Vercel
+## Deploying
+
+### Vercel
 
 1. Push the project to a Git repository and import it in Vercel (framework preset: Next.js).
 2. Add the environment variables above in **Project → Settings → Environment Variables**.
 3. Deploy, then connect the custom domain and set `NEXT_PUBLIC_SITE_URL` to it.
+
+### Hostinger (or any other plain Node.js host)
+
+Vercel runs `next build` directly. A generic Node.js host instead needs a persistent server
+process, so `next.config.mjs` sets `output: "standalone"` — Next's own recommended setting for
+this ([docs](https://nextjs.org/docs/app/api-reference/config/next-config-js/output)) — which
+produces a minimal, self-contained `.next/standalone/server.js`. A `postbuild` script
+(`scripts/copy-standalone-assets.mjs`) then copies `public/` and `.next/static/` into that folder,
+since Next deliberately leaves those out of the standalone build (it assumes a CDN serves them,
+which a simple self-hosted setup doesn't have).
+
+1. Connect the GitHub repo in Hostinger's Node.js app deploy screen. Framework preset **Next.js**,
+   Node version **20.x or newer** (the app requires ≥20.9, per `engines` in `package.json`).
+2. Build command: `npm run build` (this also runs `postbuild` automatically — no extra step).
+   Start command / application entry file: `.next/standalone/server.js`, equivalently
+   `npm run start:standalone`.
+3. Add the environment variables from the table above in Hostinger's **Environment variables**
+   step. At minimum, set `NEXT_PUBLIC_SITE_URL` to the real domain — without it the site falls back
+   to a hardcoded placeholder URL in `lib/site-config.ts`. Add `RESEND_API_KEY` (plus
+   `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL` if needed) so the estimate form actually delivers
+   leads — without it, submissions fail with a "please call us" message instead of silently
+   vanishing, but no email goes out.
+4. The standalone server reads `PORT` (and optionally `HOSTNAME`) from the environment; Hostinger
+   sets this automatically.
+
+`next.config.ts` (TypeScript) doesn't work on Hostinger's build container — it couldn't load either
+native SWC binary (`linux-x64-gnu` or `linux-x64-musl`), which Next needs specifically to transpile
+a TypeScript config, causing a hard `Failed to load next.config.ts` error before the app build even
+starts. That's why the config here is plain `next.config.mjs` instead — a plain ES module needs no
+transpilation, so it loads regardless of whether SWC's native binary works on the host.
