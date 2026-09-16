@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "node node_modules/next/dist/bin/next dev",
-    "build": "node node_modules/next/dist/bin/next build",
+    "build": "node node_modules/next/dist/bin/next build --webpack",
     "postbuild": "node scripts/copy-standalone-assets.mjs",
     "start": "node node_modules/next/dist/bin/next start",
     "start:standalone": "node .next/standalone/server.js",
