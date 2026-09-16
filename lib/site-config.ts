@@ -106,6 +106,14 @@ export const siteConfig = {
   // HERO IMAGE: to swap it, drop a new file in /public and change `src` below.
   // Use a wide image (ideally 1920px+ wide). `objectPosition` controls which
   // part of the photo stays visible when it's cropped on different screens.
+  //
+  // Two separate crops are used (see Hero.tsx), because a single crop can't
+  // work for both: the CSS `object-fit: cover` only lets `objectPosition`
+  // control the axis that actually gets cropped, and that axis flips between
+  // a tall/narrow mobile viewport and a wide/short desktop one. `heroImage`
+  // below is a tall crop (person framed via horizontal cropping on mobile);
+  // `heroImageDesktop` is a wide landscape crop of the same photo so the full
+  // truck bed and person are both visible once the container goes wide.
   heroImage: {
     // The version suffix busts Next.js's aggressive cache on optimized images:
     // browsers that already loaded the hero at an old URL would otherwise keep
@@ -117,6 +125,14 @@ export const siteConfig = {
     // they stay clear of the hero text on narrow screens (the overlay gradient
     // in Hero.tsx darkens that left side to match).
     objectPosition: "60% center",
+  },
+  heroImageDesktop: {
+    src: "/hero-truck-desktop-v1.jpg",
+    alt: "Blaze Junk & Haul crew member giving a shaka next to a pickup truck loaded with carpet and junk hauled away from a Fort Worth, TX home",
+    // Anchored to the top: the crop already frames from just above the junk
+    // pile down to the waist, so on very wide screens any extra cropping
+    // should come off the bottom (legs), never the top (junk pile + head).
+    objectPosition: "58% top",
   },
   logo: {
     src: "/logo.png",

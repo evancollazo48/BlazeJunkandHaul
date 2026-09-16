@@ -7,25 +7,43 @@ import { heroChecks } from "@/lib/content";
 import { siteConfig } from "@/lib/site-config";
 
 interface HeroProps {
-  /** Hero background — defaults to siteConfig.heroImage so it can be swapped without code changes. */
+  /** Mobile/tablet hero background — defaults to siteConfig.heroImage. */
   image?: { src: string; alt: string; objectPosition?: string };
+  /** Desktop (lg+) hero background — defaults to siteConfig.heroImageDesktop. */
+  desktopImage?: { src: string; alt: string; objectPosition?: string };
 }
 
-export function Hero({ image = siteConfig.heroImage }: HeroProps) {
+export function Hero({
+  image = siteConfig.heroImage,
+  desktopImage = siteConfig.heroImageDesktop,
+}: HeroProps) {
   return (
     <section
       aria-labelledby="hero-heading"
       className="relative isolate overflow-hidden border-b-4 border-orange"
     >
-      {/* LCP image: preloaded, everything else on the page lazy-loads. */}
+      {/* Two crops of the same photo — see the comment on heroImage in
+          site-config.ts for why one crop can't serve both breakpoints. Only
+          one is ever laid out at a time (the other is `display:none`), so
+          only one enters the accessibility tree. Both are preloaded since
+          either can be the page's LCP image depending on viewport. */}
       <Image
         src={image.src}
         alt={image.alt}
         fill
         preload
         sizes="100vw"
-        className="-z-20 object-cover"
+        className="-z-20 object-cover lg:hidden"
         style={{ objectPosition: image.objectPosition ?? "center" }}
+      />
+      <Image
+        src={desktopImage.src}
+        alt={desktopImage.alt}
+        fill
+        preload
+        sizes="100vw"
+        className="-z-20 hidden object-cover lg:block"
+        style={{ objectPosition: desktopImage.objectPosition ?? "center" }}
       />
       {/* Dark fade concentrated under the text column only so the photo — the
           crew member and the loaded truck bed — reads at full brightness on
